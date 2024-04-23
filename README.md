@@ -1,5 +1,5 @@
 # PolyPlasmaPlanet
-## just some more game programming! This time I'm using Pyglet.
+## Welcome to Wannamaker Labs! You've landed on my dev logs. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes!
   
     I'm a new follower in the cult of done.
     and this github account shall hence forth be a testiment to that.
@@ -11,6 +11,6 @@
          - I looked to Lospec to guide me, and added the colors I enjoyed to `palette.json`
       2. Art style!
           - Pixel art! Exercise my KISS bone! (referring to my new favorite mantra: "Keep it simple, stupid.")
-          - Pixel art is *cool*.
+          - Pixel art is *cool*. It lets me make *simple* things ***awesome***.
           - Upon the realization that hand drawing (or even computer aided) would be FAR too tedious I did what any good programmer does best--I wrote up `pixel_art_generator.py`, a script that generates sprite sheet and images for regular polygons using the color palettes I defined in a separate file. Pictured here is the encouraging results of that endeavor!
             ![Alt text](sample-spritesheet-(132x132).png)
