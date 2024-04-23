@@ -5,4 +5,4 @@
   and this github account shall hence forth be a testiment to that.
 
 ### - Status report: Tuesday 4/23/24
-  ![Spritesheet](sample spritesheet (132x132).png)
+  ![Spritesheet]("sample spritesheet (132x132).png")
