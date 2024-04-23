@@ -1,16 +1,18 @@
 import math
+import pathlib
 
 import pyglet
 from pyglet.window import key
 
-from pyglet.gl import *
-glEnable(GL_BLEND)
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+# from pyglet.gl import *
+# glEnable(GL_BLEND)
+# glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
-from game import Ball
+# from game import Ball
 
-pyglet.resource.path = ['../resources']
+# pyglet.resource.path = ['../resources']
+pyglet.resource.path = [pyglet.resource.get_script_home(), '../resources']
 pyglet.resource.reindex()
 
 window = pyglet.window.Window()
@@ -69,11 +71,11 @@ def get_apothem(n, radius):
 
 
 shapes = pyglet.graphics.Batch()
-plasma_ball_image = pyglet.image.load('plasmaball.png')
-plasma_ball_image.anchor_x = 16
-plasma_ball_image.anchor_y = 16
-plasma_ball_image.scale = 3
-plasma_ball = pyglet.sprite.Sprite(plasma_ball_image, x=window.width//2, y=window.height//2, batch=shapes)
+# plasma_ball_image = pyglet.image.load('plasmaball.png')
+# plasma_ball_image.anchor_x = 16
+# plasma_ball_image.anchor_y = 16
+# plasma_ball_image.scale = 3
+# plasma_ball = pyglet.sprite.Sprite(plasma_ball_image, x=window.width//2, y=window.height//2, batch=shapes)
 pentagon = pyglet.shapes.Star(x=300, y=300,
                               num_spikes=5, outer_radius=200, inner_radius=get_apothem(5, 200),
                               color=(230, 100, 100, 175),
