@@ -1,5 +1,6 @@
 # PolyPlasmaPlanet
-## Welcome to Wannamaker Labs! You've landed on my dev logs. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes!
+## Welcome to Wannamaker Labs! 
+### It seems you've landed on my dev logs. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes!
   
     I'm a new follower in the cult of done.
     and this github account shall hence forth be a testiment to that.
