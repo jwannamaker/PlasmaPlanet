@@ -4,14 +4,12 @@ import pathlib
 import pyglet
 from pyglet.window import key
 
-# from pyglet.gl import *
-# glEnable(GL_BLEND)
-# glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+from pyglet.gl import *
+
+glEnable(GL_BLEND)
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
-# from game import Ball
-
-# pyglet.resource.path = ['../resources']
 pyglet.resource.path = [pyglet.resource.get_script_home(), '../resources']
 pyglet.resource.reindex()
 

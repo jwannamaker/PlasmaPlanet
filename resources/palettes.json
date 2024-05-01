@@ -1,17 +1,17 @@
 {
     "cyclops6": {
-        "maroon": [60, 31, 48],
+        "maroon-dark-red": [60, 31, 48],
         "red": [91, 33, 52],
         "dark-blue": [57, 82, 94],
         "mid-torquoise": [61, 136, 141],
-        "torquoise": [79, 172, 155],
-        "light-torquoise": [110, 221, 187]
+        "torquoise-blue": [79, 172, 155],
+        "light-torquoise-green": [110, 221, 187]
     },
     "tangerine4": {
         "muted-green": [43, 48, 35],
         "sage-green": [95, 98, 70],
-        "tangerine": [171, 126, 54],
-        "peach": [209, 163, 111]
+        "tangerine-orange": [171, 126, 54],
+        "peach-pink": [209, 163, 111]
     },
     "origami-clouds6": {
         "white": [223, 227, 226],
@@ -22,11 +22,11 @@
     },
     "oil6": {
         "white": [250, 245, 240],
-        "cool-cream": [237, 213, 176],
-        "rose": [192, 160, 165],
-        "lavender": [134, 110, 153],
+        "cool-cream-yellow": [237, 213, 176],
+        "rose-pink": [192, 160, 165],
+        "lavender-light-purple": [134, 110, 153],
         "purple": [74, 77, 122],
-        "midnight": [39, 39, 66]
+        "midnight-purple": [39, 39, 66]
     },
     "neo5": {
         "black": [0, 0, 0],
@@ -36,7 +36,7 @@
         "hot-pink": [233, 51, 146]
     },
     "twilight5": {
-        "cream": [241, 189, 176],
+        "cream-yellow-white": [241, 189, 176],
         "pink": [224, 139, 150],
         "soft-blue": [85, 121, 147],
         "dusk-blue": [53, 63, 86],
@@ -45,16 +45,26 @@
     "cryptic-ocean6": {
         "deep-purple": [39, 24, 57],
         "mid-purple": [60, 45, 92],
-        "indigo": [67, 63, 119],
+        "indigo-blue": [67, 63, 119],
         "mid-blue": [79, 91, 132],
         "light-blue": [109, 128, 155],
         "seafoam-green": [159, 195, 173]
     },
-    "plasma5": {
-        "warm-black": [41, 40, 48],
-        "soft-blue": [85, 121, 147],
-        "pine-green": [88, 120, 106],
+    "plasma8": {
+        "pastel-pink": [244, 205, 204],
+        "cool-cream-yellow": [237, 213, 176],
         "muted-red": [202, 111, 108],
-        "seafoam-green": [159, 195, 173]
+        "peach-pink": [209, 163, 111],
+        "rose-pink": [192, 160, 165],
+        "tangerine-orange": [171, 126, 54],
+        "seafoam-light-green": [159, 195, 173],
+        "lavender-light-purple": [174, 123, 173],
+        "sage-green": [95, 98, 70],
+        "pine-dark-green": [88, 120, 106],
+        "soft-light-blue": [85, 121, 147],
+        "maroon-dark-red": [60, 31, 48],
+        "dusk-mid-blue": [53, 63, 86],
+        "muted-green": [43, 48, 35],
+        "warm-black": [41, 40, 48]
     }
 }
