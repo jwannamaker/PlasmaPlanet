@@ -4,8 +4,7 @@ from pathlib import Path
 import pyglet
 from pyglet.gl import *
 
-import hud
-import asset_manager
+from game import hud, asset_manager, resources
 
 
 glEnable(GL_BLEND)
@@ -30,41 +29,6 @@ label_maker.set_xy(hiscore, 0, window.height - 36)
 label_maker.set_xy(score, 0, window.height - 72)
 label_maker.set_xy(level, 0, window.height - 108)
 
-
-
-#-------------------------------------------------------------------------------
-class BasicObject(pyglet.sprite.Sprite):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.velocity_x = 0.0
-        self.velocity_y = 0.0
-        
-    def update(self, dt):
-        self.x += self.velocity_x * dt
-        self.y += self.velocity_y * dt
-        self.check_bounds()
-        
-    def check_bounds(self):
-        min_x = -self.image.width / 2
-        max_x = window.width + self.image.width / 2
-        
-        min_y = -self.image.height / 2
-        max_y = window.height + self.image.height / 2
-        
-        if self.x > max_x:
-            self.x = max_x
-            self.velocity_x *= -0.9
-        elif self.x < min_x:
-            self.x = min_x
-            self.velocity_x *= -0.9
-            
-        if self.y > max_y:
-            self.y = max_y
-            self.velocity_y *= -0.9
-        elif self.y < min_y:
-            self.y = min_y
-            self.velocity_y *= -0.9
-
 #-------------------------------------------------------------------------------
 player_choice_image = pyglet.resource.image('sample spritesheet (132x132).png')
 
@@ -78,9 +42,10 @@ color_swatch_image = pyglet.image.load(swatch_image_path)
 asset_manager.center_image(player_choice_image)
 asset_manager.center_image(hexagon_image)
 asset_manager.center_image(color_swatch_image)
-
+#-------------------------------------------------------------------------------
 @window.event
 def on_draw():
+    window.clear()
     hud.Hud.draw()
     player_choice_image.blit(window.width / 2, window.height / 2)
     hexagon_image.blit(window.width / 2, window.height - 200)

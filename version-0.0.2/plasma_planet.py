@@ -18,7 +18,7 @@ window.set_fullscreen()
 keyboard = key.KeyStateHandler()
 window.push_handlers(keyboard)
 clock = pyglet.clock.get_default()
-
+print(f'Window Size: {window.get_size()}')
 
 HUD = pyglet.graphics.Batch()
 background = pyglet.graphics.Group(order=0)
