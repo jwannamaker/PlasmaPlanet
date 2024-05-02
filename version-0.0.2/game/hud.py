@@ -37,3 +37,4 @@ class LabelFactory:
     def update(self, label_name, new_value):
         fixed_text = self.labels[label_name].text[:self.labels[label_name].text.find('-')]
         self.labels[label_name].text = f'{fixed_text}{new_value:>40}'
+        

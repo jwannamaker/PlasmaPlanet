@@ -6,9 +6,10 @@ from pathlib import Path
 import pyglet
 from PIL import Image, ImageDraw
 
-import assets
+from game import assets
 
-class PixelArtGenerator:
+
+class PixelArtist:
     """ Generates all of the assets that I may need for a particular video game. 
     I'm aware that I can optimize a lot of things within this class, such as 
     image caching, and presorting the palettes by value/tone.
@@ -47,33 +48,49 @@ class PixelArtGenerator:
         drawing_context.rectangle((0, 0), fill=color, outline=border_color, width=assets.BORDER)
         
         return out
-        
-    def create_color_swatch(self, palette_name):
+    
+    def get_swatch_color_grid(self, palette_name):
         color_list = list(self.palette[palette_name].items())
-        color_swatch = list(itertools.permutations(color_list, 2))
+        color_combos = list(itertools.permutations(color_list, 2))
         
-        swatch_size = assets.SIZE[0] * len(color_swatch), assets.SIZE[1] * 2
+        color_grid = dict.fromkeys(list(self.palette[palette_name].keys()))
+        print(color_grid)
+        print(len(color_grid.keys()))
+        for key in list(color_grid.keys()):
+            row = []
+            for background, foreground in color_combos:
+                if background[0] == key:
+                    row.append([background[0], foreground[0]])
+            print(row)
+            print(len(row))
+            print()
+            color_grid[key] = row
+        return color_grid
+    
+    def create_color_swatch(self, palette_name):
+        
+        color_grid = self.get_swatch_color_grid(palette_name)
+        swatch_size = assets.SIZE[0] * (len(color_grid) - 1), assets.SIZE[1] * len(color_grid)
         swatch = Image.new('RGB', swatch_size)
         drawing_context = ImageDraw.Draw(swatch)
         
         i, j = 0, 0
-        for background, foreground in color_swatch:
+        for row in color_grid:
             print()
-            print(background[0])
-            print(foreground[0])
-            topleft = i * assets.SIZE[0], j * assets.SIZE[1]
-            bottomright = topleft[0] + assets.SIZE[0], topleft[1] + assets.SIZE[1]
-            drawing_context.rectangle((topleft, bottomright), 
-                                      fill=(foreground[1][0], foreground[1][1], foreground[1][2]), 
-                                      outline=(background[1][0], background[1][1], background[1][2]), 
-                                      width=assets.BORDER)
+            print(row)
             
-            i += 1
-            if i >= len(color_list):
-                i = 0
-                j += 1
+            i = 0
+            for box in color_grid[row]:
+                topleft = i * assets.SIZE[0], j * assets.SIZE[1]
+                bottomright = topleft[0] + assets.SIZE[0], topleft[1] + assets.SIZE[1]
+                drawing_context.rectangle((topleft, bottomright), 
+                                        fill=self.get_color_code(palette_name, box[1]), 
+                                        outline=self.get_color_code(palette_name, box[0]), 
+                                        width=assets.BORDER * 2)
+                i += 1
+            j += 1
                 
-        swatch_path = f'{palette_name}-swatch-{assets.SIZE[0]}x{assets.SIZE[1]}.png'
+        swatch_path = f'resources/{palette_name}-swatch-{assets.SIZE[0]}x{assets.SIZE[1]}.png'
         swatch.save(swatch_path, 'PNG')
         return swatch_path
         

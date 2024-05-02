@@ -6,16 +6,17 @@ import pyglet
 pyglet.resource.path = ['../resources']
 pyglet.resource.reindex()
 
-
-def center_image(image):
-    image.anchor_x = image.width // 2
-    image.anchor_y = image.height // 2
-
+palette = pyglet.resource.file('palettes.json')
 WIDTH = 5
 BORDER = 10
 RADIUS = 32
 SIZE = round((RADIUS+BORDER)*2), round((RADIUS+BORDER)*2)
 CENTER = RADIUS+BORDER, RADIUS+BORDER
+
+def center_image(image):
+    image.anchor_x = image.width // 2
+    image.anchor_y = image.height // 2
+
 
 class PolygonSprite(Enum):
     TRIANGLE = {'n': 3, 'fill_color': 'tangerine', 'border_color': 'yellow'}
@@ -24,10 +25,12 @@ class PolygonSprite(Enum):
     HEXAGON = {'n': 6, 'fill_color': 'dusk', 'border_color': 'lavender'}
     OCTAGON = {'n': 8, 'fill_color': 'tangerine', 'border_color': 'yellow'}
 
+
 class ButtonSprite(Enum):
     SMALL_BUTTON = 20, 60
     MEDIUM_BUTTON = 30, 90
     BIG_BUTTON = 40, 120
+
 
 class Asset(pyglet.sprite.Sprite):
     def __init__(self, filename, shape, position: tuple[float, float]):
