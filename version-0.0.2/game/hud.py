@@ -15,7 +15,7 @@ class LabelFactory:
         return 'title'
         
     def create_updatable(self, fixed_text: str, default_value: int):
-        label_text = f'{fixed_text:<9}-{default_value:>40}'
+        label_text = f'{fixed_text:<9}{default_value:>40}'
         self.labels[fixed_text.lower()] = pyglet.text.Label(text=label_text)
         self.format(self.labels[fixed_text.lower()])
         return fixed_text.lower()
@@ -35,6 +35,6 @@ class LabelFactory:
         self.labels[label_name].y = y
     
     def update(self, label_name, new_value):
-        fixed_text = self.labels[label_name].text[:self.labels[label_name].text.find('-')]
+        fixed_text = self.labels[label_name].text[:self.labels[label_name].text.find(' ')]
         self.labels[label_name].text = f'{fixed_text}{new_value:>40}'
         
