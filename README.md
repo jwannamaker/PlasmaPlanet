@@ -23,7 +23,7 @@
             
             - Upon the realization that hand drawing (or even computer aided) would be FAR too tedious I did what any good programmer does best--I wrote up `pixel_art_generator.py`, a script that generates sprite sheet and images for regular polygons using the color palettes I defined in a separate file. Pictured here is the encouraging results of that endeavor!
 
-            ![Alt text](resources/sample-spritesheet-(132x132).png)
+            ![Alt text](version-0.0.2/resources/sample-spritesheet-(132x132).png)
 
 
 
@@ -49,7 +49,7 @@
  
             [Twilight 5 Palette by Star](https://lospec.com/palette-list/twilight-5)
 
-            ![Alt text](resources/twilight5-swatch-84x84.png)
+            ![Alt text](version-0.0.2/resources/twilight5-swatch-84x84.png)
 
 
             [Cryptic Ocean Palette by Kaflooty](https://lospec.com/palette-list/cryptic-ocean)
@@ -57,4 +57,3 @@
             ![Alt text](resources/cryptic-ocean6-swatch-84x84.png)
 
 	**Moving Forward**
-  
