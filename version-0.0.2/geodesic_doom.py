@@ -2,19 +2,17 @@ import math
 from enum import Enum
 from pathlib import Path
 
-import glooey
 import pyglet
 from pyglet.gl import *
 
-from game import hud, asset_manager
-
+from game import *
 
 pyglet.resource.path = ['resources']
 pyglet.resource.reindex()
 palette = pyglet.resource.file('data/palettes.json')
 
 
-class PlatonicSolid(Enum):
+class PlatonicSolidFiles(Enum):
     TETRA = pyglet.resource.file('data/tetrahedron.json')
     HEXA = pyglet.resource.file('data/cube.json')
     OCTA = pyglet.resource.file('data/octahedron.json')
@@ -26,6 +24,9 @@ glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 window = pyglet.window.Window()
+main_batch = pyglet.graphics.Batch()
+main_group = pyglet.graphics.Group()
+
 window.set_fullscreen()
 clock = pyglet.clock.get_default()
 
@@ -51,7 +52,11 @@ def on_draw():
     window.clear()
     hud.Hud.draw()
     player_choice_image.blit(window.width / 2, window.height / 2)
+    main_batch.draw()
 
 
 if __name__ == '__main__':
-    pyglet.app.run()
+    # pyglet.app.run()
+    print(list(pixel_artist.draw_platonic_solid(PlatonicSolidFiles.TETRA)))
+
+    print(list(pixel_artist.draw_platonic_solid(PlatonicSolidFiles.HEXA)))
