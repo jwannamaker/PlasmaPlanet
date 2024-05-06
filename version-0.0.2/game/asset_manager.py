@@ -1,5 +1,6 @@
 import sys
 import json
+import string
 import itertools
 from pathlib import Path
 from enum import Enum
@@ -7,9 +8,9 @@ from enum import Enum
 import json
 import pyglet
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-from . import TILE_SIZE, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET_BORDER, SIZE, CENTER
+from game import TILE_SIZE, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET_BORDER, SIZE, CENTER
 
 
 def center_image(image):
@@ -55,16 +56,47 @@ class PixelArtist:
     palette_dir: The directory with the palette file (a .json).
     output_dir: The directory where to output the images to (.png format).
     """
-    def __init__(self, palette, tilemap):
-        self.palette = self.load_palette(palette)
-        self.tilemap = self.load_tilemap(tilemap)
+    def __init__(self, palette_file, font_file, tilemap_file):
+        self.palette = self.load_palette(palette_file)
+        self.font = self.load_font(font_file)
+        self.tilemap = self.load_tilemap(tilemap_file)
 
-    def load_palette(self, palette) -> dict:
-        self.palette = json.load(palette)
+    def load_palette(self, palette_file) -> dict:
+        self.palette = json.load(palette_file)
         return self.palette
 
-    def load_tilemap(self, tilemap):
-        self.tilemap = json.load(tilemap)
+    def load_font(self, font_file) -> dict:
+        """ Manually grabbing each character from a .png and creating a dict with
+                                                            (key=character, value=image)
+        Special case for space character.
+        """
+        # Info about the font image
+        char_size = 128, 128
+        digit_size = 64, 128
+        characters = list(itertools.chain(string.ascii_uppercase, string.digits))
+
+        self.font = {}
+        self.font.fromkeys(characters)
+        for i, ch in enumerate(characters):
+            topleft = 0, 0
+            bottomright = char_size if ch.isalpha() else digit_size
+            self.font[ch] = pyglet.sprite.Sprite(img=font_file.get_region(*topleft, *bottomright))
+            self.font[ch].scale = 0.5  # new char size==32, 32
+            self.font[ch] = self.font[ch].image
+        self.font[' '] = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0)).create_image(*char_size)
+        return self.font
+
+    def fancy_write(self, text, start_pos, batch):
+        rendered_text = []
+
+        spacing = 10
+        x, y = start_pos
+        for i, ch in enumerate(text):
+            x += spacing + self.font['A'].width
+            rendered_text.append(pyglet.sprite.Sprite(img=self.font[ch], x=x, y=y, batch=batch))
+
+    def load_tilemap(self, tilemap_file):
+        self.tilemap = json.load(tilemap_file)
         return self.tilemap
 
     def get_color_code(self, palette_name, color) -> tuple[int, int, int]:
@@ -128,6 +160,17 @@ class PixelArtist:
         swatch.save(swatch_path, 'PNG')
         return swatch_path
 
+    def create_title_card(self, title, card_size):
+        out = Image.new('RGBA', card_size)
+        drawing_context = ImageDraw.Draw(out)
+        drawing_context.rounded_rectangle(((0, 0), card_size), radius=10,
+                                          fill=self.get_color_code('cryptic-ocean6', 'seafoam'))
+        drawing_context.rounded_rectangle(((8, 8), (card_size[0]-8, card_size[1]-8)), radius=10,
+                                          fill=self.get_color_code('cryptic-ocean6', 'light-blue'))
+        image_path = f'resources/images/title-card-{title}-{card_size[0]}x{card_size[1]}.png'
+        out.save(image_path, 'PNG')
+        return f'title-card-{title}-{card_size[0]}x{card_size[1]}.png'
+
     def create_sprite(self, shape: PolygonSprite, rotation: float) -> Image:
         out = Image.new('RGBA', SIZE)
         drawing_context = ImageDraw.Draw(out)
@@ -181,7 +224,7 @@ class PixelArtist:
 
         sample_sheet.save(('sample spritesheet (' + str(SIZE[0]) + 'x' + str(SIZE[1]) + ').png'), 'PNG')
 
-    def draw_platonic_solid(self, platonic_file):
+    def create_platonic_solid_sprite(self, platonic_file):
         """ WILL EVENTUALLY:
         Take the points listed in the file,
         convert the 3d coordinates to an isometric projection.
