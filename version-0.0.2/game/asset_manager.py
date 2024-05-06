@@ -9,15 +9,7 @@ import pyglet
 import numpy as np
 from PIL import Image, ImageDraw
 
-# All measurements provided in pixels unless otherwise specified.
-TILE_SIZE = 32, 16  # Unit tile size. Corresponds to the top of the cubes.
-WORLD_SIZE = 5, 5  # In tiles.
-
-WIDTH = 32  # Sprite Size
-BORDER = 10  # Border between sprites in spritesheets.
-RADIUS = 32  # For polygons.
-SIZE = round((RADIUS + BORDER) * 2), round((RADIUS + BORDER) * 2)
-CENTER = RADIUS + BORDER, RADIUS + BORDER
+from . import TILE_SIZE, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET_BORDER, SIZE, CENTER
 
 
 def center_image(image):
@@ -55,7 +47,7 @@ class Asset(pyglet.sprite.Sprite):
 
 
 class PixelArtist:
-    """ Generates all of the assets that I may need for a particular video game.
+    """ Generates all assets that I may need for a particular video game.
     I'm aware that I can optimize a lot of things within this class, such as
     image caching, and presorting the palettes by value/tone.
 
@@ -63,14 +55,17 @@ class PixelArtist:
     palette_dir: The directory with the palette file (a .json).
     output_dir: The directory where to output the images to (.png format).
     """
-    def __init__(self, palette):
-        self.palette = {}
-        self.load_palette(palette)
+    def __init__(self, palette, tilemap):
+        self.palette = self.load_palette(palette)
+        self.tilemap = self.load_tilemap(tilemap)
 
     def load_palette(self, palette) -> dict:
-        # with open(Path.joinpath(self.curr_dir, file)) as f:
-            # return json.load(f)
         self.palette = json.load(palette)
+        return self.palette
+
+    def load_tilemap(self, tilemap):
+        self.tilemap = json.load(tilemap)
+        return self.tilemap
 
     def get_color_code(self, palette_name, color) -> tuple[int, int, int]:
         for palette_color in list(self.palette[palette_name].keys()):
@@ -79,17 +74,13 @@ class PixelArtist:
                         self.palette[palette_name][palette_color][1],
                         self.palette[palette_name][palette_color][2])
 
-    def get_all_combinations(self, palette) -> list[int]:
-
-        print('Get all valid combinations of 2 background and foreground colors.')
-
     def create_solid_color_box(self, color, border_color) -> Image:
         out = Image.new('RGB', SIZE)
         drawing_context = ImageDraw.Draw(out)
         # drawing_context.rounded_rectangle(((0, 0), SIZE), radius=10,
         #                                   fill=color, outline=border_color,
         #                                   width=10)
-        drawing_context.rectangle((0, 0), fill=color, outline=border_color, width=BORDER)
+        drawing_context.rectangle((0, 0), fill=color, outline=border_color, width=SPRITESHEET_BORDER)
 
         return out
 
@@ -98,16 +89,16 @@ class PixelArtist:
         color_combos = list(itertools.permutations(color_list, 2))
 
         color_grid = dict.fromkeys(list(self.palette[palette_name].keys()))
-        print(color_grid)
-        print(len(color_grid.keys()))
+        # print(color_grid)
+        # print(len(color_grid.keys()))
         for key in list(color_grid.keys()):
             row = []
             for background, foreground in color_combos:
                 if background[0] == key:
                     row.append([background[0], foreground[0]])
-            print(row)
-            print(len(row))
-            print()
+            # print(row)
+            # print(len(row))
+            # print()
             color_grid[key] = row
         return color_grid
 
@@ -120,17 +111,16 @@ class PixelArtist:
 
         i, j = 0, 0
         for row in color_grid:
-            print()
-            print(row)
-
+            # print()
+            # print(row)
             i = 0
             for box in color_grid[row]:
                 topleft = i * SIZE[0], j * SIZE[1]
                 bottomright = topleft[0] + SIZE[0], topleft[1] + SIZE[1]
                 drawing_context.rectangle((topleft, bottomright),
-                                        fill=self.get_color_code(palette_name, box[1]),
-                                        outline=self.get_color_code(palette_name, box[0]),
-                                        width=BORDER * 2)
+                                          fill=self.get_color_code(palette_name, box[1]),
+                                          outline=self.get_color_code(palette_name, box[0]),
+                                          width=SPRITESHEET_BORDER * 2)
                 i += 1
             j += 1
 
@@ -141,11 +131,11 @@ class PixelArtist:
     def create_sprite(self, shape: PolygonSprite, rotation: float) -> Image:
         out = Image.new('RGBA', SIZE)
         drawing_context = ImageDraw.Draw(out)
-        drawing_context.regular_polygon((CENTER, RADIUS), shape.value['n'], rotation,
+        drawing_context.regular_polygon((CENTER, SPRITE_RADIUS), shape.value['n'], rotation,
                                         fill=self.get_color_code('plasma8', shape.value['fill_color']),
                                         outline=self.get_color_code('plasma8', shape.value['border_color']),
                                         width=1)
-        drawing_context.regular_polygon((CENTER, RADIUS-WIDTH), shape.value['n'], rotation,
+        drawing_context.regular_polygon((CENTER, SPRITE_RADIUS - SPRITE_WIDTH), shape.value['n'], rotation,
                                         fill=(0, 0, 0, 0),
                                         outline=self.get_color_code('plasma8', shape.value['border_color']))
         return out
@@ -179,7 +169,9 @@ class PixelArtist:
         return image_path
 
     def create_sample_sheet(self, shapes: list[PolygonSprite]):
-        """ Note that a complete version of this function would include a swatch, the color codes and names on the sheet. """
+        """ Note that a complete version of this function would include a swatch,
+        the color codes and names on the sheet.
+        """
         sample_sheet_size = SIZE[0]*len(shapes), SIZE[1]
         sample_sheet = Image.new('RGBA', sample_sheet_size, self.get_color_code('plasma8', 'black'))
 
@@ -190,8 +182,11 @@ class PixelArtist:
         sample_sheet.save(('sample spritesheet (' + str(SIZE[0]) + 'x' + str(SIZE[1]) + ').png'), 'PNG')
 
     def draw_platonic_solid(self, platonic_file):
-        """ Takes the points listed in the file, converts the 3d coordinates to an isometric projection. Draws that
-        wireframe on a image, saves and returns it.
+        """ WILL EVENTUALLY:
+        Take the points listed in the file,
+        convert the 3d coordinates to an isometric projection.
+        Draws that wireframe on an image,
+        saves and returns it.
         """
         geometry_info = json.load(platonic_file.value)
         print(f'retrieved info: {geometry_info}')
@@ -212,3 +207,6 @@ class PixelArtist:
             print(f'original: (\t{x}, \t{y}, \t{z})')
             print(f'transform: (\t{transformed[0]}, \t{transformed[1]})')
             yield transformed
+
+    def create_tilemap(self):
+        print(self.tilemap)

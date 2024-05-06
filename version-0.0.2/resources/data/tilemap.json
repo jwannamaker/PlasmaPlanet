@@ -1,0 +1,6 @@
+{
+  "generic-tile": {
+    "locations": [[0, 0], [0, 1], [1, 0],[1, 1]],
+    "image": "resources/images/its-a-better-cube-32x32.png"
+  }
+}

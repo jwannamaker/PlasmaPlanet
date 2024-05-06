@@ -1,9 +1,6 @@
 import pyglet
 
-
-WINDOW_WIDTH = 1792
-WINDOW_HEIGHT = 1120
-
+from . import WINDOW_WIDTH, WINDOW_HEIGHT
 
 class BasicObject(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
