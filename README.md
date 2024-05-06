@@ -23,7 +23,7 @@
             
             - Upon the realization that hand drawing (or even computer aided) would be FAR too tedious I did what any good programmer does best--I wrote up `pixel_art_generator.py`, a script that generates sprite sheet and images for regular polygons using the color palettes I defined in a separate file. Pictured here is the encouraging results of that endeavor!
 
-            ![Alt text](version-0.0.2/resources/sample-spritesheet-(132x132).png)
+            ![Alt text](version-0.0.2/resources/images/sample-spritesheet-(132x132).png)
 
 
 
@@ -49,11 +49,20 @@
  
             [Twilight 5 Palette by Star](https://lospec.com/palette-list/twilight-5)
 
-            ![Alt text](version-0.0.2/resources/twilight5-swatch-84x84.png)
+            ![Alt text](resources/images/twilight5-swatch-84x84.png)
 
 
             [Cryptic Ocean Palette by Kaflooty](https://lospec.com/palette-list/cryptic-ocean)
 
-            ![Alt text](resources/cryptic-ocean6-swatch-84x84.png)
+            ![Alt text](resources/images/cryptic-ocean6-swatch-84x84.png)
 
 	**Moving Forward**
+
+- ### Status Report: Monday 5/6/24
+
+	- I decided that no matter how exciting the finished result is in my mind, it will be 1000000% better if I can plan out my steps methodically and thoughtfully. That's how I maximize productivity. I must first have a clear vision of where I want to go.
+ 	1. Palette
+  		- Came across a $0.99/mo Asesprite clone for iPad/iPhone called ![Resprite](https://resprite.fengeon.com/doc) and it's been working out really great!
+    		- This morning I created a font as a horizonatal spritesheet in Resprite, and as of right now, I'm able to render that font onto the game screen which is extremely gratifying. I really can't express how cool I feel just knowing that I drew all of the text rendered on the screen for my game by *hand*.
+      		![My Custom Pixel Art Font](resources/images/large-palace-font-white.png)
+        	![My Custom Pixel Art Font in black](resources/images/large-palace-font-black.png)
