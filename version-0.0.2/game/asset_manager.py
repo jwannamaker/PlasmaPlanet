@@ -1,3 +1,4 @@
+import imghdr
 import sys
 import json
 import string
@@ -6,9 +7,10 @@ from pathlib import Path
 from enum import Enum
 
 import json
+import PIL
+from PIL import Image, ImageDraw, ImageFont
 import pyglet
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
 
 from game import TILE_SIZE, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET_BORDER, SIZE, CENTER
 
@@ -16,7 +18,7 @@ from game import TILE_SIZE, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET
 def center_image(image):
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
-
+    return image
 
 def build_asset_from_json(filename):
     with open(filename) as f:
@@ -71,17 +73,28 @@ class PixelArtist:
                                                             (key=character, value=image)
         Special case for space character.
         """
-        # Info about the font image
-        char_size = 128, 128
-        digit_size = 64, 128
-        characters = list(itertools.chain(string.ascii_uppercase, string.digits))
-        characters = list(itertools.batched(characters, 6))
-        print(characters)
-
-        self.font = {}
-        self.font.fromkeys(characters)
-        self.font = pyglet.image.ImageGrid(image=font_file, rows=1, columns=36, item_width=128, item_height=128)
-
+        # characters = list(itertools.chain(string.ascii_uppercase, string.digits))
+        # characters = list(itertools.batched(characters, 6))
+        # ordered_characters =
+        # for c in characters: #FUCK THIS. JUST hardcoding it for now.
+        ordered_characters = ['5', '6', '7', '8', '9', '0',
+                              'Y', 'Z', '1', '2', '3', '4',
+                              'S', 'T', 'U', 'V', 'W', 'X',
+                              'M', 'N', 'O', 'P', 'Q', 'R',
+                              'G', 'H', 'I', 'J', 'K', 'L',
+                              'A', 'B', 'C', 'D', 'E', 'F']
+        # Image.new('RGBA', (128, 128), (0, 0, 0, 0))
+        character_images = pyglet.image.ImageGrid(image=font_file, rows=6, columns=6)
+        blank_image = pyglet.resource.image('blank-128x128.png')
+        blanker_image = Image.new('RGBA', (128, 128), color=(0, 0, 0, 0))
+        blanker_image = blanker_image.alpha_composite(blank_image, (0, 0), (0, 0))
+        # blank_image = pyglet.image.codecs.ImageEncoder()
+        # blank_image.save(encoder=pyglet.image.codecs.PILImageEncoder)
+        # character_images = [Image.new('RGBA', (128, 128) for img in character_images]
+        
+        self.font = {k: v for k, v in zip(ordered_characters, character_images)}
+        self.font[' '] = pyglet.resource.image('blank-128x128.png')
+        print(self.font)
         # for i, ch in enumerate(characters):
         #     topleft = 0, 0
         #     bottomright = char_size if ch.isalpha() else digit_size
@@ -91,14 +104,19 @@ class PixelArtist:
         # self.font[' '] = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0)).create_image(*char_size)
         return self.font
 
-    def fancy_write(self, text, start_pos, batch):
-        rendered_text = []
+    def fancy_write(self, text, start_pos):
+        text_batch = pyglet.graphics.Batch()
 
         # spacing = 10
         x, y = start_pos
         for i, ch in enumerate(text):
-            x += self.font['A'].width
-            rendered_text.append(pyglet.sprite.Sprite(img=self.font[ch], x=x, y=y, batch=batch))
+            print(f'{x}, {y} is a {ch}')
+            _ = pyglet.sprite.Sprite(img=self.font[ch], batch=text_batch)
+            _.scale = 0.25
+            _.x = x
+            _.y = y
+            x += 32
+        return text_batch
 
     def load_tilemap(self, tilemap_file):
         self.tilemap = json.load(tilemap_file)

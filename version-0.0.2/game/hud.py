@@ -35,10 +35,10 @@ class LabelFactory:
         self.labels[label_name].x = x
         self.labels[label_name].y = y
 
-    def update(self, label_name, add_to_value):
+    def update(self, dt, label_name):
         label_text = self.labels[label_name].text
         split_index = label_text.find(' ')
         fixed_text = label_text[:split_index].strip()
-        value = float(label_text[split_index:].strip())
-        value += round(add_to_value)
+        value = int(label_text[split_index:].strip()) + 1
         self.labels[label_name].text = f'{fixed_text:<9} {value:>40}'
+        

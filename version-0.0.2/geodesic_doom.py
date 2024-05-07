@@ -39,7 +39,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 window = pyglet.window.Window()
 main_batch = pyglet.graphics.Batch()
-pixel_artist.fancy_write('GEODESIC DOOM', (0, window.height-32), main_batch)
+text_batch = pyglet.graphics.Batch()
 main_group = pyglet.graphics.Group()
 
 window.set_fullscreen()
@@ -53,10 +53,21 @@ level = label_maker.create_updatable('Level', 0)
 display_clock = label_maker.create_updatable('Time', 0)
 
 # Placing each label at its screen position.
-label_maker.set_xy(hiscore, 0, window.height - 36)
-label_maker.set_xy(score, 0, window.height - 72)
-label_maker.set_xy(level, 0, window.height - 108)
-label_maker.set_xy(display_clock, 0, window.height - 144)
+label_maker.set_xy(hiscore, 0, window.height - 36 - 64)
+label_maker.set_xy(score, 0, window.height - 2*(36) - 64)
+label_maker.set_xy(level, 0, window.height - 3*(36) - 64)
+label_maker.set_xy(display_clock, 0, window.height - 4*(36) - 64)
+
+
+def render_font(text):
+    i, j = 0, window.height-128
+    for ch in text:
+        
+        pixel_artist.font[ch].blit(i, j)
+        i += 128
+        if i > window.width:
+            i = 0
+            j -= 128
 
 
 @window.event
@@ -73,18 +84,21 @@ def on_mouse_press(x, y, button, modifiers):
 def on_mouse_scroll(x, y, scroll_x, scroll_y):
     print(f'scrolling mouse @{x},{y}')
 
-
+clock.schedule_interval(func=label_maker.update, interval=1.0, 
+                        label_name='time')
 
 @window.event
 def on_draw():
     window.clear()
 
+    title_card.blit(0, window.height-128)
     main_batch.draw()
-    title_card.blit(0, window.height-64)
-    label_maker.update('time', clock.last_ts)
+    
+    
     hud.Hud.draw()
+    render_font('GEODESIC DOOM')
 
-    player_choice_image.blit(window.width/2, window.height/2)
+    # player_choice_image.blit(window.width/2, window.height/2)
 
 
 if __name__ == '__main__':
