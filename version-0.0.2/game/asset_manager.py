@@ -61,6 +61,7 @@ class PixelArtist:
         self.font = self.load_font(font_file)
         self.tilemap = self.load_tilemap(tilemap_file)
 
+
     def load_palette(self, palette_file) -> dict:
         self.palette = json.load(palette_file)
         return self.palette
@@ -74,25 +75,29 @@ class PixelArtist:
         char_size = 128, 128
         digit_size = 64, 128
         characters = list(itertools.chain(string.ascii_uppercase, string.digits))
+        characters = list(itertools.batched(characters, 6))
+        print(characters)
 
         self.font = {}
         self.font.fromkeys(characters)
-        for i, ch in enumerate(characters):
-            topleft = 0, 0
-            bottomright = char_size if ch.isalpha() else digit_size
-            self.font[ch] = pyglet.sprite.Sprite(img=font_file.get_region(*topleft, *bottomright))
-            self.font[ch].scale = 0.5  # new char size==32, 32
-            self.font[ch] = self.font[ch].image
-        self.font[' '] = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0)).create_image(*char_size)
+        self.font = pyglet.image.ImageGrid(image=font_file, rows=1, columns=36, item_width=128, item_height=128)
+
+        # for i, ch in enumerate(characters):
+        #     topleft = 0, 0
+        #     bottomright = char_size if ch.isalpha() else digit_size
+        #     self.font[ch] = pyglet.sprite.Sprite(img=font_file.get_region(*topleft, *bottomright))
+        #     self.font[ch].scale = 0.5  # new char size==32, 32
+        #     self.font[ch] = self.font[ch].image
+        # self.font[' '] = pyglet.image.SolidColorImagePattern(color=(0, 0, 0, 0)).create_image(*char_size)
         return self.font
 
     def fancy_write(self, text, start_pos, batch):
         rendered_text = []
 
-        spacing = 10
+        # spacing = 10
         x, y = start_pos
         for i, ch in enumerate(text):
-            x += spacing + self.font['A'].width
+            x += self.font['A'].width
             rendered_text.append(pyglet.sprite.Sprite(img=self.font[ch], x=x, y=y, batch=batch))
 
     def load_tilemap(self, tilemap_file):

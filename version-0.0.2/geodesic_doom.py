@@ -39,7 +39,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 window = pyglet.window.Window()
 main_batch = pyglet.graphics.Batch()
-write_batch = pixel_artist.fancy_write('GEO', (0, window.height-32))
+pixel_artist.fancy_write('GEODESIC DOOM', (0, window.height-32), main_batch)
 main_group = pyglet.graphics.Group()
 
 window.set_fullscreen()
@@ -79,13 +79,12 @@ def on_mouse_scroll(x, y, scroll_x, scroll_y):
 def on_draw():
     window.clear()
 
+    main_batch.draw()
     title_card.blit(0, window.height-64)
-    write_batch.draw()
     label_maker.update('time', clock.last_ts)
     hud.Hud.draw()
 
     player_choice_image.blit(window.width/2, window.height/2)
-    main_batch.draw()
 
 
 if __name__ == '__main__':
