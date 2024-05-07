@@ -1,12 +1,12 @@
 import pyglet
 
-Hud = pyglet.graphics.Batch()
-
 
 class LabelFactory:
-    def __init__(self, window_width, window_height):
+    def __init__(self, window_width, window_height, batch, subgroup):
         self.window_width = window_width
         self.window_height = window_height
+        self.batch = batch
+        self.subgroup = subgroup
         self.labels = {}
 
     def create_title(self, title: str):
@@ -26,7 +26,8 @@ class LabelFactory:
         label.anchor_y = 'top'
         label.font_name = 'monogram'
         label.font_size = 36
-        label.batch = Hud
+        label.batch = self.batch
+        label.group = self.subgroup
 
     def get_label(self, fixed_text) -> pyglet.text.Label:
         return self.labels[fixed_text]

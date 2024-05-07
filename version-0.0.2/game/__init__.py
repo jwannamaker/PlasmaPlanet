@@ -13,6 +13,6 @@ CENTER = SPRITE_RADIUS + SPRITESHEET_BORDER, SPRITE_RADIUS + SPRITESHEET_BORDER
 
 
 from . import load
-from . import asset_manager
 from . import basic_object
+from . import asset_manager
 from . import hud

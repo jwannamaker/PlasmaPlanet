@@ -3,8 +3,13 @@ import pyglet
 from . import WINDOW_WIDTH, WINDOW_HEIGHT
 
 class BasicObject(pyglet.sprite.Sprite):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, texture, *args, **kwargs):
+        self.texture = texture
+        super().__init__(self.texture, *args, **kwargs)
+        self.color = (255, 255, 255)
+        self.opacity = 255
+        self.x = 0
+        self.y = 0
         self.velocity_x = 0.0
         self.velocity_y = 0.0
 
@@ -13,6 +18,22 @@ class BasicObject(pyglet.sprite.Sprite):
         self.y += self.velocity_y * dt
         self.check_bounds()
 
+    def _draw(self, x, y):
+        """ This is where I'll insert any additional things I'll want to do to the 
+        sprite before actually rendering it. 
+        
+        Such as: 
+        checking a state variable to see if the image needs to be converted to
+            + greyscale or 
+            + other color treatment options
+        """
+        self.x = x
+        self.y = y
+        self.draw()
+    
+    def get_texture(self):
+        return self.texture
+    
     def check_bounds(self):
         min_x = -self.image.width / 2
         max_x = WINDOW_WIDTH + self.image.width / 2
