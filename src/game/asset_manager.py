@@ -1,5 +1,3 @@
-import imghdr
-import sys
 import json
 import string
 import itertools
@@ -12,25 +10,8 @@ from PIL import Image, ImageDraw, ImageFont
 import pyglet
 import numpy as np
 
-from game import TILE_SIZE, WINDOW_HEIGHT, WORLD_SIZE, SPRITE_WIDTH, SPRITE_RADIUS, SPRITESHEET_BORDER, SIZE, CENTER
-from game import basic_object
-
-def center_image(image):
-    image.anchor_x = image.width // 2
-    image.anchor_y = image.height // 2
-    return image
-
-def build_asset_from_json(filename):
-    with open(filename) as f:
-        return json.load(f)
-
-
-class PolygonSprite(Enum):
-    TRIANGLE = {'n': 3, 'fill_color': 'tangerine', 'border_color': 'yellow'}
-    SQUARE = {'n': 4, 'fill_color': 'pine', 'border_color': 'seafoam'}
-    PENTAGON = {'n': 5, 'fill_color': 'muted-red', 'border_color': 'pastel-pink'}
-    HEXAGON = {'n': 6, 'fill_color': 'dusk', 'border_color': 'lavender'}
-    OCTAGON = {'n': 8, 'fill_color': 'tangerine', 'border_color': 'yellow'}
+import game.core as core
+from game.basic_object import BasicObject
 
 
 class PixelArtist:
@@ -42,18 +23,16 @@ class PixelArtist:
     palette_dir: The directory with the palette file (a .json).
     output_dir: The directory where to output the images to (.png format).
     """
-    def __init__(self, palette_file, font_file, text_batch, subgroup, tilemap_file):
+    def __init__(self, palette_file, font_file, tilemap_file):
         self.palette = self.load_palette(palette_file)
-        self.text_batch = text_batch
-        self.group = subgroup
-        self.font = self.load_font(font_file, self.text_batch, self.group)
+        self.font = self.load_font(font_file)
         self.tilemap = self.load_tilemap(tilemap_file)
 
     def load_palette(self, palette_file) -> dict:
         self.palette = json.load(palette_file)
         return self.palette
 
-    def load_font(self, font_file, batch, subgroup) -> dict:
+    def load_font(self, font_file) -> dict:
         # characters = list(itertools.chain(string.ascii_uppercase, string.digits))
         # characters = list(itertools.batched(characters, 6))
         # ordered_characters =
@@ -64,23 +43,28 @@ class PixelArtist:
                               'M', 'N', 'O', 'P', 'Q', 'R',
                               'G', 'H', 'I', 'J', 'K', 'L',
                               'A', 'B', 'C', 'D', 'E', 'F', ' ']
-        character_texture_regions = pyglet.image.ImageGrid(image=font_file, rows=6, columns=6)
-        character_sprites = [basic_object.BasicObject(c, batch=batch, group=subgroup) for c in character_texture_regions]
+        font_images = pyglet.image.ImageGrid(image=font_file, rows=6, columns=6)
+        font_textures = pyglet.image.TextureGrid(font_images)
+        font_data = [img.get_image_data() for img in font_images]
+        character_sprites = [pyglet.sprite.Sprite(img=img_data, batch=core.text_batch, group=core.background) for img_data in font_data]
+        for sprite in character_sprites:
+            sprite.visible = True
+        # character_sprites = [BasicObject(texture=c, batch=batch, group=subgroup) for c in font_textures]
         
         self.font = {k: v for k, v in zip(ordered_characters, character_sprites)}
-        self.font[' '] = basic_object.BasicObject(pyglet.resource.image('blank-128x128.png'), batch=batch, group=subgroup) 
+        self.font[' '] = pyglet.sprite.Sprite(img=core.blank_image.get_image_data(), batch=core.text_batch) 
+        self.font[' '].visible = True
         # print(self.font)
         # check HERE if font is populated with the right stuff
         return self.font
 
-    def render_font(self, text, x=0, y=WINDOW_HEIGHT-128):
+    def render_font(self, text, x=0, y=core.WINDOW_HEIGHT-128):
         text_sprites = []
         for ch in text:
             print(f'rendering {ch} @ {x}, {y}')
-            text_sprites.append(pyglet.sprite.Sprite(img=self.font[ch], x=x, y=y, batch=self.text_batch, group=self.group))
+            # sprite_image_data = self.font[ch].image.get_image_data()
+            text_sprites.append(pyglet.sprite.Sprite(img=self.font[ch].image.get_texture(), x=x, y=y, batch=core.text_batch))
             x += 128
-            
-
     
     def load_tilemap(self, tilemap_file):
         self.tilemap = json.load(tilemap_file)
@@ -93,6 +77,7 @@ class PixelArtist:
                         self.palette[palette_name][palette_color][1],
                         self.palette[palette_name][palette_color][2])
 
+    """
     def create_solid_color_box(self, color, border_color) -> Image:
         out = Image.new('RGB', SIZE)
         drawing_context = ImageDraw.Draw(out)
@@ -199,9 +184,9 @@ class PixelArtist:
         return image_path
 
     def create_sample_sheet(self, shapes: list[PolygonSprite]):
-        """ Note that a complete version of this function would include a swatch,
+        ''' Note that a complete version of this function would include a swatch,
         the color codes and names on the sheet.
-        """
+        '''
         sample_sheet_size = SIZE[0]*len(shapes), SIZE[1]
         sample_sheet = Image.new('RGBA', sample_sheet_size, self.get_color_code('plasma8', 'black'))
 
@@ -212,12 +197,12 @@ class PixelArtist:
         sample_sheet.save(('sample spritesheet (' + str(SIZE[0]) + 'x' + str(SIZE[1]) + ').png'), 'PNG')
 
     def create_platonic_solid_sprite(self, platonic_file):
-        """ WILL EVENTUALLY:
+        ''' WILL EVENTUALLY:
         Take the points listed in the file,
         convert the 3d coordinates to an isometric projection.
         Draws that wireframe on an image,
         saves and returns it.
-        """
+        '''
         geometry_info = json.load(platonic_file.value)
         print(f'retrieved info: {geometry_info}')
         # transformation matrix
@@ -240,3 +225,4 @@ class PixelArtist:
 
     def create_tilemap(self):
         print(self.tilemap)
+    """
