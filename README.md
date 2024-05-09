@@ -76,7 +76,7 @@
 
 			That's.... what.. rendering.... is.
 - For some visual updates, here's a screenshot of what my custom font looked like loaded into the game on Tuesday:
-  	![Game screenshot](src/images/screenshot 5-7-24.png)
+  	![Game screenshot](src/resources/images/screenshot 5-7-24.png)
   - I had such a beautiful moment when I just automatically created a new virtual environment for a file, without having to look anything up or think about it, I just knew already what I had to do and then it was done. This is the ultimate superpower in the cult of done, I think.
 
 		Done is the engine of more.
