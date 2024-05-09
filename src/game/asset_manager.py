@@ -10,8 +10,8 @@ from PIL import Image, ImageDraw, ImageFont
 import pyglet
 import numpy as np
 
-import game.core as core
-from game.basic_object import BasicObject
+import game.util as util
+from basic_object import BasicObject
 
 
 class PixelArtist:
@@ -46,24 +46,24 @@ class PixelArtist:
         font_images = pyglet.image.ImageGrid(image=font_file, rows=6, columns=6)
         font_textures = pyglet.image.TextureGrid(font_images)
         font_data = [img.get_image_data() for img in font_images]
-        character_sprites = [pyglet.sprite.Sprite(img=img_data, batch=core.text_batch, group=core.background) for img_data in font_data]
-        for sprite in character_sprites:
-            sprite.visible = True
+        character_sprites = [pyglet.sprite.Sprite(img=img_data, batch=util.text_batch, group=util.background) for img_data in font_data]
+        # for sprite in character_sprites:
+        #     sprite.visible = True
         # character_sprites = [BasicObject(texture=c, batch=batch, group=subgroup) for c in font_textures]
         
         self.font = {k: v for k, v in zip(ordered_characters, character_sprites)}
-        self.font[' '] = pyglet.sprite.Sprite(img=core.blank_image.get_image_data(), batch=core.text_batch) 
-        self.font[' '].visible = True
+        self.font[' '] = pyglet.sprite.Sprite(img=util.blank_image.get_image_data(), batch=util.text_batch) 
+        # self.font[' '].visible = True
         # print(self.font)
         # check HERE if font is populated with the right stuff
         return self.font
 
-    def render_font(self, text, x=0, y=core.WINDOW_HEIGHT-128):
+    def render_font(self, text, x=0, y=util.WINDOW_HEIGHT-128):
         text_sprites = []
         for ch in text:
             print(f'rendering {ch} @ {x}, {y}')
             # sprite_image_data = self.font[ch].image.get_image_data()
-            text_sprites.append(pyglet.sprite.Sprite(img=self.font[ch].image.get_texture(), x=x, y=y, batch=core.text_batch))
+            text_sprites.append(pyglet.sprite.Sprite(img=self.font[ch].image.get_texture(), x=x, y=y, batch=util.text_batch))
             x += 128
     
     def load_tilemap(self, tilemap_file):

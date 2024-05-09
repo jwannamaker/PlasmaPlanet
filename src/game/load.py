@@ -1,18 +1,18 @@
-import random
-import math
+import string
 
 import pyglet
+from pyglet.sprite import Sprite
+from pyglet.image import TextureGrid, ImageGrid
+
+from . import resources
 
 
-def distance(a, b):
-    return math.dist(a, b)
-
-def polygons(num_polygons: int, player_position: list[int], 
-             window_width: int, window_height: int):
-    polygons = []
+def font():
+    parse_chars = [*string.ascii_uppercase, *string.digits, ' ']
+    font_textures = TextureGrid(ImageGrid(resources.font, 6, 6))
     
-    for i in range(num_polygons):
-        polygon_position = random.randint(0, window_width), random.randint(0, window_height)
-        
-        while distance(polygon_position, player_position) < 100:
-            polygon_position = random.randint(0, window_width), random.randint(0, window_height)
+    # Not adding these into a batch or group YET
+    font_sprites = [Sprite(char_tex) for char_tex in font_textures]
+    font_sprites.append(resources.blank_image.get_texture())
+    
+    return {k: v for k, v in zip(parse_chars, font_sprites)}

@@ -1,6 +1,6 @@
 import pyglet
 
-from game.core import WINDOW_WIDTH, WINDOW_HEIGHT
+import game.util as util
 
 
 class BasicObject(pyglet.sprite.Sprite):
@@ -30,10 +30,10 @@ class BasicObject(pyglet.sprite.Sprite):
     
     def check_bounds(self):
         min_x = 0
-        max_x = WINDOW_WIDTH
+        max_x = util.WINDOW_WIDTH
         
         min_y = 0
-        max_y = WINDOW_HEIGHT
+        max_y = util.WINDOW_HEIGHT
 
         if self.x > max_x:
             self.x = max_x

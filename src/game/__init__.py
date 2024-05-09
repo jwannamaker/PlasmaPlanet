@@ -1,5 +1,11 @@
-from . import core
-from . import load
-from . import basic_object
-from . import asset_manager
-from . import hud
+# from core import *
+from .basic_object import BasicObject
+from .asset_manager import PixelArtist
+from .label import LabelFactory
+
+__all__ = [
+    'core',
+    'BasicObject',
+    'PixelArtist',
+    'LabelFactory',
+]
