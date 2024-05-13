@@ -2,7 +2,7 @@
 
 ####  Here, you'll find a series of progress reports as I embark on a journey of self discovery via video game development. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes! I genuinely don't know if this endeavor will turn into an actual playable game that you can enjoy, so you'll just have to stay tuned in order to find out! (Essentially a dev blog?) Honestly, it's gonna be messy at times, but it's an accurate representation of my journey, the skills I'm picking up, what isues I'm working on, and all sorts of nitty-gritty-witty crap.
 
-> I'm a new follower in the cult of ![done](<https://www.youtube.com/watch?v=bJQj1uKtnus>).
+> I'm a new follower in the cult of ![done](https://www.youtube.com/watch?v=bJQj1uKtnus).
 
 ---
 
@@ -27,7 +27,7 @@
 ### Status Report: Thursday 5/2/24
     
 - Lots of project restructuring since last week.
-- Still working through Pyglet's [in-depth asteroids tutorial](<https://pyglet.readthedocs.io/en/latest/programming_guide/examplegame.html#making-the-player-and-asteroid-sprites>).
+- Still working through Pyglet's [in-depth asteroids tutorial](https://pyglet.readthedocs.io/en/latest/programming_guide/examplegame.html#making-the-player-and-asteroid-sprites).
         
 - Palette
     - Finished a swatch generator in `PixelArtist` (which is now located in the `asset_manager` submodule of `game`).
@@ -37,13 +37,13 @@
 
 - Style
     - Turning my focus towards introducing an isometric grid to the game, which means more methods in PixelArtist to generate isometric images.
-    - Looking at buying [Aseprite $19.99](<https://www.aseprite.org/>), the tool of choice for *literally* every pixel artist on YouTube, for the cases where it's more effort to proceedurally generate the pixel art instead of just drawing it. Additionally, proceedurally generating the art implies that I've already decided on final designs; I'm finding it more difficult to repeatedly tweak a method, run it in a somewhat isolated submodule of my game, save the *.png into the now behemoth of a folder that `resources` has become, rinse and repeat if I want to see a minor difference in the drawing.
+    - Looking at buying [Aseprite $19.99](https://www.aseprite.org/), the tool of choice for *literally* every pixel artist on YouTube, for the cases where it's more effort to proceedurally generate the pixel art instead of just drawing it. Additionally, proceedurally generating the art implies that I've already decided on final designs; I'm finding it more difficult to repeatedly tweak a method, run it in a somewhat isolated submodule of my game, save the *.png into the now behemoth of a folder that `resources` has become, rinse and repeat if I want to see a minor difference in the drawing.
 
     	![Twilight 5 Palette Swatch](<src/resources/images/twilight5-swatch-84x84.png>)
-		*Palette swatch generated from [Twilight 5](<https://lospec.com/palette-list/twilight-5>) using my `PixelArtist`*
+		*Palette swatch generated from [Twilight 5](https://lospec.com/palette-list/twilight-5) using my `PixelArtist`*
 
     	![Cryptic Ocean Palette Swatch](<src/resources/images/cryptic-ocean6-swatch-84x84.png>)
-		*Palette swatch generated from [Cryptic Ocean](<https://lospec.com/palette-list/cryptic-ocean>) using my `PixelArtist`*
+		*Palette swatch generated from [Cryptic Ocean](https://lospec.com/palette-list/cryptic-ocean) using my `PixelArtist`*
   
 **Moving Forward**
 
@@ -73,7 +73,7 @@ So, ***onward and upward***
 ### Status Report: Thrusday 5/9/24
 
 - I still need to determine a definitive direction that I'm trying to go with this. When I close my eyes, what is it that I see? What game do I want to play? Does the end result even matter in this case if my true goal is to simply grow my skills and build my portfolio?
-- Reinvigorated by the need to have something I can playtest, I went back to Pyglet's Asteroid example and added any relevant files from the examples subdirectory of that ![repo](<https://github.com/pyglet/pyglet.git>). I'm sorta caught between this desire to make everything OOP, and dreading the impending data coupling. It almost feels... unneccessary right now? I can do without OOP, I could even benefit from treating the code base more modularly, if I can just get over what school has drilled in me so far about obsessively abstracting.
+- Reinvigorated by the need to have something I can playtest, I went back to Pyglet's Asteroid example and added any relevant files from the examples subdirectory of that ![repo](https://github.com/pyglet/pyglet.git). I'm sorta caught between this desire to make everything OOP, and dreading the impending data coupling. It almost feels... unneccessary right now? I can do without OOP, I could even benefit from treating the code base more modularly, if I can just get over what school has drilled in me so far about obsessively abstracting.
 - Putting the possibility of publishing my game online on the table! More on that later.
 - Sometimes it's difficult to make sure I get everything I can into this report!
 - I realized that the real crux of this project is going to be the mechanism that takes in a 3D object (rather, the digital representation of it, such as a unit tetrahedron), allows me to manipulate that object (ex: 30 degree rotation along the z axis), and finally outputs the modified 3D object, creating the experience of being immersed in a pixelated, isometric world.
@@ -98,10 +98,10 @@ So, ***onward and upward***
 	- Quaternions
 ...have all come up in the past dozen or so hours of my studies.
 - A series of very, very helpful websites that I've come across:
-	- ![Isometric Projection](<http://www.gandraxa.com/isometric_projection.xml>)
-	- ![Isometric Tiling](<http://www.gandraxa.com/isometric_tiling.xml>)
-	- ![Linear Algebra for Programmers](<https://www.linearalgebraforprogrammers.com/blog/isometric_projection>)
-	- ![Isometric Pixel Art Blog](<https://www.slynyrd.com/blog/2022/11/28/pixelblog-41-isometric-pixel-art>)
+	- ![Isometric Projection](http://www.gandraxa.com/isometric_projection.xml)
+	- ![Isometric Tiling](http://www.gandraxa.com/isometric_tiling.xml)
+	- ![Linear Algebra for Programmers](https://www.linearalgebraforprogrammers.com/blog/isometric_projection)
+	- ![Isometric Pixel Art Blog](https://www.slynyrd.com/blog/2022/11/28/pixelblog-41-isometric-pixel-art)
 
 ---
 
