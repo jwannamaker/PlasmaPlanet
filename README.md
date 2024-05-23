@@ -102,6 +102,7 @@ So, ***onward and upward***
 	- [Isometric Tiling](http://www.gandraxa.com/isometric_tiling.xml)
 	- [Linear Algebra for Programmers](https://www.linearalgebraforprogrammers.com/blog/isometric_projection)
 	- [Isometric Pixel Art Blog](https://www.slynyrd.com/blog/2022/11/28/pixelblog-41-isometric-pixel-art)
+ 	- [Hexagonal Grid Systems](https://www.redblobgames.com/grids/hexagons/#basics)
 
 ---
 
