@@ -1,6 +1,6 @@
 # PlasmaPlanet
 
-####  Here, you'll find a series of progress reports as I embark on a journey of self discovery via video game development. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes! I genuinely don't know if this endeavor will turn into an actual playable game that you can enjoy, so you'll just have to stay tuned in order to find out! (Essentially a dev blog?) Honestly, it's gonna be messy at times, but it's an accurate representation of my journey, the skills I'm picking up, what isues I'm working on, and all sorts of nitty-gritty-witty crap.
+####  Here, you'll find a series of progress reports as I embark on a new leg of my software engineering journey via video game development. Proceed with curiosity (and caution), and witness my software development skills rapidly grow right before your eyes! I genuinely don't know if this endeavor will turn into an actual playable game that you can enjoy, so you'll just have to stay tuned in order to find out! (Essentially a dev blog?) Honestly, it's gonna be messy at times, but it's an accurate representation of my journey, the skills I'm picking up, what isues I'm working on, and all sorts of nitty-gritty-witty crap.
 
 > I'm a new follower in the cult of ![done](https://www.youtube.com/watch?v=bJQj1uKtnus).
 
